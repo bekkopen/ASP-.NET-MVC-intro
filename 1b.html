@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="nb-no">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave1.html#1b"><= Tilbake</a>
+	<h3>Lage ny Controller</h3>
+	
+	<p>
+Høyre-klikk på Controllers-mappa og velg: <br>	
+	Add => Controller		
+	</p>
+	<img src="img/1/new_controller.png">
+<p>
+ Her får man mange valg. Hvis man ønsker kan Visual Studio generere diverse actions på controlleren med tilhørende Views. Vi velger bare <i>Empty MVC5 Controller</i> og døper den <code>PersonController</code>.
+</p>
+<img src="img/1/empty_controller.png">
+<p>Resultatet er en C#-klasse med som arver fra <code>Controller</code>:
+<pre>
+<code class="cs">
+namespace MVCintro.Controllers
+{
+    public class PersonController : Controller
+    {
+        // GET: Person
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+</code>
+</pre>
+Det ligger ingen spesiell magi bak å legge til Controlleren med Visual Studio -
+det hadde fungert like fint å bare lage en vanlig C#-klasse, kalle den for PersonController og arve fra <code>Controller</code>
+</p>
+
+<h3>Legge til View</h3>
+<p>Høyre-klikk på Views-mappen: <br>
+Add => Folder <br>
+Kall den <i>Person</i></p>
+<p>Høyre-klikk på Person-mappen:<br>
+Add => View</p>
+
+<img src="img/1/add_view.png">
+<p>Kall viewet <i>Index</i>. Bruk standardinstillinger:</p>
+<img src="img/1/add_view2.png">
+
+	
+<p>Skriv litt passende tekst i Viewet og bygg på nytt (CTRL + F5).</p>
+<p>Den nye siden er nå å finne på <code>http://localhost:&lt;port&gt;/Person</code>
+
+
+<h3>Lage Model</h3>
+<p>Høyre-klikk på Models-mappen: <br>
+Add => Class </p>
+<img src="img/1/add_model.png">
+<p>Døp den <i>PersonModel</i>
+</p>
+<p>Legg til felter for id, fornavn, etternavn og telefonnummer:
+<pre>
+<code class="cs">
+namespace MVCintro.Models
+{
+    public class PersonModel
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+}
+</code>
+</pre>
+Modellen er ikke nødt til å hete noe med <i>Model</i>, men dette er vanlig slik at utviklere raskt kan gjenkjenne formålet med klassen.
+<p>
+
+<h3>Vise modellen i Show</h3>
+<p>Lag en ny action i <code>PersonController</code> som tar inn <code class="cs">int personId</code> 
+og <i>rendrer</i> et view med en <i>PersonModel</i> som modell:
+<pre><code class="cs">
+public ActionResult Show(int personId)
+{
+    var model = new PersonModel(personId, "Nils", "Jensen", "9161166");
+
+    return View(model);
+}
+</code>
+</pre>
+		For at dette skal virke må vi lage en konstruktør på <code>PersonModel</code>.
+		</p>
+	<quotes><p><strong>Pro tip:</strong> Hvis du skriver <code class="cs">new PersonModel(...)</code> før du oppretter konstruktøren kan du trykke på den røde streken og deretter trykke på den røde lyspæra i margen (ALT + Enter) og velge <i>Create Constructor</i>.</p></quotes>
+
+<p>
+<pre><code class="cs">
+public class PersonModel
+{
+	public PersonModel(int personId, string firstName, string lastName, string phoneNumber)
+	{
+		Id = personId;
+		FirstName = firstName;
+		LastName = lastName;
+		PhoneNumber = phoneNumber;
+	}
+
+	public int Id { get; set; }
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public string PhoneNumber { get; set; }
+}
+</code>
+</pre>
+</p>
+
+<p>
+	Vi må også lage oss et nytt view i person-mappa:<br>
+	<code>Views/Person/Show.cshtml:</code>
+	<pre><code class="html">@model MVCintro.Models.PersonModel
+
+&lt;h2>Person&lt;/h2>
+&lt;p>Id: @Model.Id&lt;/p>
+&lt;p>Fornavn: @Model.FirstName&lt;/p>
+&lt;p>Etternavn: @Model.LastName&lt;/p>
+&lt;p>Telefonnummer: @Model.PhoneNumber&lt;/p></code></pre>
+</p>
+
+<p>Bygg på nytt (CTRL + F5) og gå til <code>http://localhost:&lt;port&gt;/Person/Show</code> <br>
+Vi får feilmelding fordi vi Show-actionen ber om å få inn en parameter (personId). Vi kan sende den inn ved å skrive <code>http://localhost:&lt;port&gt;/Person/Show?personId=1337</code><br>
+Personen vår skal nå vises.</p>
+
+<quotes><p><strong>Pro tip:</strong>
+I C# har man muligheten til å sette en standardverdi for parametere. Hvis vi feks. ønsker at et kall til <code>http://localhost:&lt;port&gt;/Person/Show</code> skal vise person nummer én kan vi legge sette <i>Show(int personId = 1)</i>. For å teste om dette virker må vi bygge på nytt (CTRL + F5).
+</p></quotes>
+<pre><code class="cs">public ActionResult Show(int personId = 1)
+{
+	var model = new PersonModel(personId, "Nils", "Jensen", "9161166");
+
+	return View(model);
+}
+</code></pre>
+
+
+
+ <a href="oppgave1.html#1b"><= Tilbake</a>
+</p>
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

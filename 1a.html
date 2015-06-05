@@ -18,7 +18,7 @@
     </section>
 
     <section class="main-content">
-	 <a href="oppgave1.html"><= Tilbake</a>
+ <a href="oppgave1.html#1a"><= Tilbake</a>
 	<h3>Opprette prosjekt</h3>
 	
 	<p>
@@ -47,11 +47,76 @@ Velg <i>Add unit tests</i>
 </p>
 
 <h3>Filstruktur</h3>
+<p>Ta en titt i <i>Solution Explorer</i> som befinner seg på høyre side i Visual Studio. Modellene befinner seg i mappen 
+</p>
+<img src="img/1/file_tree.png">
+<p>
+<i>Models</i> controllerne ligger i <i>Controllers</i>. Dette er ikke noe krav, men en vanlig måte å strukturere prosjektet sitt på. </p>
+<p>
+	Ta en titt på <code>HomeController.cs</code>:
+</p>
+<pre><code class="cs">
+namespace MVCintro.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
 
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
 
-    </section>
+            return View();
+        }
 
-  
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}
+</code></pre>
+
+<p>
+Hver av disse tilsvarer en handling i menyen på siden vår. Når vi går inn på en side, feks <code>http://localhost:&lt;port&gt;/Home/About</code> kalles <code>HomeController.About()</code> som returnerer et View til brukeren.<br>
+Vi har ikke spesifisert hvilken View-fil som skal benyttes, men MVC-rammeverket bruker navnet på Controlleren og Actionen (Home og About) til å lete i <code>Views/Home/</code> etter en fil som heter <code>About.cshtml</code>.
+<p>Det er altså et krav at View-filene ligger på riktig sted, med mindre vi spesifiserer eksplisitt hvilket View som skal benyttes (og det er det jo digg å slippe).</p>
+<p>Hvis du vil kan du forsøke å endre teksten i <code>ViewBag.Message</code>, kompilere på nytt <i>(F5 eller CTRL + F5)</i>, og observere endringen.</p>
+
+<h3>Routes</h3>
+<p>Du har kanskje lagt merke til at <code>http://localhost:&lt;port&gt;/</code> og <code>http://localhost:&lt;port&gt;/Home/Index</code> fører til samme side. <br>
+Dersom <i>Controller</i> ikke er spesifisert ser MVC automatisk etter <code>HomeController.</code>
+<br>
+Utelater man <i>Action</i> kalles automatisk <code>Index()</code>.</p>
+
+<h3>Global.asax</h3>
+<p>Legg merke til filen <code>Global.asax</code>. Dette er inngangspunktet til applikasjonen, dvs det som kjøres når applikasjonen startes for første gang. Her kan man kalle metoder man ønsker å kjøre ved oppstart.</p>
+
+<quotes>
+<p>
+ <strong>Pro tip:</strong> For å navigere raskt til å en fil kan man trykke <code>CTRL+T</code> eller <code>CTRL+SHIFT+N</code> (avhengig av hvilke standardinstillinger man har valg for ReSharper) og søke seg frem til fila man vil gå til.
+</p>
+</quotes>
+<h3>Endre Index.cshtml</h3>
+<p>
+Gå til <code>Views/Home/Index.cshtml</code>
+<br>
+Bytt ut alt innholdet med:
+<pre><code class="html">
+&lt;h1>Hei&lt;/h1>
+&lt;p>Velkommen til min nye fete side.&lt;/p>
+&lt;p>Klokka er @DateTime.Now.ToLongTimeString()&lt;/p>
+</code></pre>
+Hvis prosjektet ditt allerede kjører kan du bare refreshe siden. Endringer i View-filene oppdateres nemlig automatisk uten at man behøver å bygge på nytt. Dette skyldes at de kompileres <i>runtime</i>, dvs at selve View-filen kompileres for hver gang en side vises (i motsetning til Modellene og Controllerene som kompileres når man starter applikasjonen).  
+</p>
+ <a href="oppgave1.html#1a"><= Tilbake</a>
+
+    </section>  
   </body>
   
   <script src="lib/highlight/highlight.pack.js"></script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave2.html#2a"><= Tilbake</a>
+	<h3>Lage link med Html.ActionLink</h3>
+	<p>
+		Html.ActionLink-metoden har mange <i>overloads</i>, dvs mange forskjellige måter man kan kalle metoden på avhengig av hvilke parametere man vil sende med:
+		<ul>
+		<li>linkText - Teksten på linken i skjermbildet</li>	
+		<li>action - Navnet på den Action-metoden linken skal peke på</li>	
+		<li>controller (frivillig) - Navnet på Controlleren</li>	
+		<li>routeValues (frivillig) - Parametere som skal med i URL'en</li>	
+		<li>htmlAttributes (frivillig) - Attributter på html-taggen som opprettes</li>	
+		</ul>
+	
+	I vårt tilfelle skal vi lage en link til en Action som er på samme Controller som oss, så vi dropper Controller. Vi trenger heller ikke sette noen htmlAttributes, men vi må sende med parameteren <i>id</i>, så vi setter den som en routeValue:
+	<pre><code class="cs">@Html.ActionLink("Link 1", "Show", new { @id = 13 })</code></pre>
+	</p>
+
+	<h3>Lage link med Url.Action</h3>
+	<p>Url.Action-metoden er veldig lik som Html.ActionLink, men denne genererer ikke noe html - kun selve URL'en. Vi må derfor skrive html'en selv:
+	<pre><code class="cs">&lt;a href="@Url.Action("Show", new {@id = 13})">Link 2&lt;/a></code></pre>
+	Etter vi har lagt inn disse linkene i <code>Index.cshtml</code> kan vi refreshe siden og teste at linkene fungerer.
+	<br>
+	Hvis vi tar en titt i consolen i nettleseren (høyre-klikk på linken og trykk "inspect element") ser vi at linkene våre er helt identiske:
+	<img src="img/2/links_markup.png"
+	
+	</p>
+	
+	<br>
+
+ <a href="oppgave2.html#2a"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

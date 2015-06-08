@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave2.html#2c"><= Tilbake</a>
+	<h3>Lage Action for å ta imot skjema</h3>
+	<p>
+	For å sende inn data må vi først ha en metode som kan ta det imot. Vi oppretter en ny <i>Action</i> på <code>PersonController</code> som vi kaller <code>Create</code>. Ettersom det er vanlig å bruke <i>POST</i> som http-metode for når man sender inn data markerer vi metoden med <code>[HttpPost].</code>
+		
+		<pre><code class="cs">[HttpPost]
+public ActionResult Create(PersonModel model)
+{
+	return View("Show", model);
+}</code></pre>
+
+Vi tar inn et objekt av typen <code>PersonModel</code> som argument. For å vise hva vi får inn bruker vi et View vi allerede har: <code>Show.cshtml</code>.
+	</p>
+
+	<h3>Lage skjema</h3>
+<p>For å lage skjemaet har vi en ny samling med Html-hjelpere:
+<pre><code class="cs">@using (Html.BeginForm("Create", "Person")){
+
+	@Html.TextBoxFor(m => m.FirstName)&lt;br/>
+	@Html.TextBoxFor(m => m.LastName)&lt;br />
+	@Html.TextBoxFor(m => m.PhoneNumber)&lt;br />
+	
+	&lt;input type="submit" value="Send inn" />
+}</code></pre>
+Vi bygger på nytt (CTRL + F5) og vips så har vi et skjema. Når vi forsøker å sende inn får vi denne feilmeldingen:
+<img src="img/2/no_parameterless_constructor.png"
+Årsaken til dette er at metoden Create-metoden vår forsøker å ta imot et objekt av typen <code>PersonModel</code>. Siden browseren ikke kan sende C#-objekter, er det MVC-rammeverket som må opprette objektet utifra parameterene som kommer inn med POST-requesten fra skjemaet. For at det skal klare å opprette et nytt objekt må <code>PersonModel</code> ha en tom konstruktør. Vi går til PersonModel.cs og legger til en konstruktør:<pre><code>public class PersonModel
+{
+	public PersonModel(int personId, string firstName, string lastName, string phoneNumber)
+	{
+		Id = personId;
+		FirstName = firstName;
+		LastName = lastName;
+		PhoneNumber = phoneNumber;
+	}
+
+	public PersonModel()
+	{
+		
+	}
+
+	public int Id { get; set; }
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public string PhoneNumber { get; set; }
+}</code></pre>
+Vi bygger på nytt, og vips får kan vi sende inn informasjon om personen som vises på Show-siden vår.</p>
+
+<p>
+	Skjemaet funker ok, men det er litt dumt at vi ikke har noen merkelapper på feltene - det er jo umulig for brukeren å vite hva feltene er til.
+	Vi legger til <i>labels:</i> 
+<pre><code class="cs">@using (Html.BeginForm("Create", "Person")){
+
+	@Html.LabelFor(m => m.FirstName) 
+	@Html.TextBoxFor(m => m.FirstName)&lt;br/>
+	@Html.LabelFor(m => m.LastName) 
+	@Html.TextBoxFor(m => m.LastName)&lt;br />
+	@Html.LabelFor(m => m.PhoneNumber) 
+	@Html.TextBoxFor(m => m.PhoneNumber)&lt;br />	
+	
+	&lt;input type="submit" value="Send inn" />
+}</code></pre></p>
+
+<p>
+Vi har nå beskrivende felter, men vi skulle ønske at de var på norsk. Vi kunne skrevet html-merkelappen selv, men det er dumt hvis vi senere vil ha de på flere språk. Vi velger derfor heller å legge på visningsnavnet på feltene i <code>PersonModel</code>:
+<pre><code>
+        public int Id { get; set; }
+        [DisplayName("Fornavn")]
+        public string FirstName { get; set; }
+        [DisplayName("Etternavn")]
+        public string LastName { get; set; }
+        [DisplayName("Telefonnummer")]
+        public string PhoneNumber { get; set; }
+</code></pre>
+</p>
+
+ <a href="oppgave2.html#2c"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

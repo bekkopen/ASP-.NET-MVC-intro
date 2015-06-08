@@ -33,18 +33,30 @@ Vi tar inn et objekt av typen <code>PersonModel</code> som argument. For å vise
 	</p>
 
 	<h3>Lage skjema</h3>
-<p>For å lage skjemaet har vi en ny samling med Html-hjelpere:
-<pre><code class="cs">@using (Html.BeginForm("Create", "Person")){
+<p>For å lage skjemaet har vi en ny samling med Html-hjelpere. Vi setter også modellen til Index til å være av typen PersonModel. <code>Index.cshtml</code>:
+<pre><code class="cs">@model MVCintro.Models.PersonModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+&lt;h2>Index&lt;/h2>
+
+@Html.ActionLink("Link 1", "Show", new { @id = 13 }, new { @class="pull-right", id = "iden-til-linken" })
+
+&lt;a href="@Url.Action("Show", new {@id = 13})">Link 2</a>
+
+@using (Html.BeginForm("Create", "Person")){
 
 	@Html.TextBoxFor(m => m.FirstName)&lt;br/>
 	@Html.TextBoxFor(m => m.LastName)&lt;br />
 	@Html.TextBoxFor(m => m.PhoneNumber)&lt;br />
-	
+
 	&lt;input type="submit" value="Send inn" />
 }</code></pre>
 Vi bygger på nytt (CTRL + F5) og vips så har vi et skjema. Når vi forsøker å sende inn får vi denne feilmeldingen:
 <img src="img/2/no_parameterless_constructor.png"
-Årsaken til dette er at metoden Create-metoden vår forsøker å ta imot et objekt av typen <code>PersonModel</code>. Siden browseren ikke kan sende C#-objekter, er det MVC-rammeverket som må opprette objektet utifra parameterene som kommer inn med POST-requesten fra skjemaet. For at det skal klare å opprette et nytt objekt må <code>PersonModel</code> ha en tom konstruktør. Vi går til PersonModel.cs og legger til en konstruktør:<pre><code>public class PersonModel
+Årsaken til dette er at metoden Create-metoden vår forsøker å ta imot et objekt av typen <code>PersonModel</code>. Siden browseren ikke kan sende C#-objekter, er det MVC-rammeverket som må opprette objektet utifra parameterene som kommer inn med POST-requesten fra skjemaet. For at det skal klare å opprette et nytt objekt må <code>PersonModel</code> ha en tom konstruktør. Vi går til PersonModel.cs og legger til en konstruktør:<pre><code class="cs">public class PersonModel
 {
 	public PersonModel(int personId, string firstName, string lastName, string phoneNumber)
 	{
@@ -83,7 +95,7 @@ Vi bygger på nytt, og vips får kan vi sende inn informasjon om personen som vi
 
 <p>
 Vi har nå beskrivende felter, men vi skulle ønske at de var på norsk. Vi kunne skrevet html-merkelappen selv, men det er dumt hvis vi senere vil ha de på flere språk. Vi velger derfor heller å legge på visningsnavnet på feltene i <code>PersonModel</code>:
-<pre><code>
+<pre><code  class="cs">
         public int Id { get; set; }
         [DisplayName("Fornavn")]
         public string FirstName { get; set; }

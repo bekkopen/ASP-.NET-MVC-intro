@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave3.html#3a"><= Tilbake</a>
+	<h3>Validering med data-annoteringer</h3>
+	<p>
+		Den enkleste og beste måte å validere på i MVC er ved å annotere feltene i modellen med validerings-attributter. På samme måten som vi dekorerte feltene med "DisplayName" for å endre visningsnavnet kan vi legge på egne annotasjoner for validering. For å gjøre navne-feltene våre obligatorisk å fylle ut legger vi på <code>[Required]</code>
+		<pre><code class="cs">[DisplayName("Fornavn")]
+[Required]
+public string FirstName { get; set; }
+[DisplayName("Etternavn")]
+[Required]
+public string LastName { get; set; }
+[DisplayName("Telefonnummer")]</code></pre>
+
+Vi bygger på nytt (CTRL + F5) og forsøker å sende inn uten å fylle ut noe.
+	</p>
+<p>Det får vi fremdeles lov til. Vi har definert noen valideringsregler, men vi bruker de ikke til noen ting. For å gjøre det må vi gå til Create-metoden vår på <code>PersonController</code>:
+
+<pre><code class="cs">[HttpPost]
+public ActionResult Create(PersonModel model)
+{
+	if (ModelState.IsValid)
+	{
+		return View("Show", model);
+	}
+	return View("Index", model);
+}</code></pre>
+Vi sjekker altså om inputen er valid ved hjelp av klassen <code>ModelState</code> som er innebygget i MVC. Dersom den er det viser vi personen, hvis ikke viser vi siden med skjemaet på nytt.<br>
+Vi bygger på nytt og tester både med og uten gyldig input.
+</p>
+<p>
+Dette ser ut til å funke feiende flott, men det er et lite problem: Brukeren får ikke noen beskjed om hva som er feil. Vi legger derfor til valideringsmeldinger i skjemaet vårt med metodene <code>Html.ValidationSummary()</code> og <code>Html.ValidationMessageFor()</code>:
+<pre>
+<code class="html">@using (Html.BeginForm("Create", "Person")){
+
+@Html.ValidationSummary()
+@Html.ValidationMessageFor(m => m.FirstName)    
+@Html.LabelFor(m => m.FirstName) 
+@Html.TextBoxFor(m => m.FirstName)&lt;br/>
+
+@Html.ValidationMessageFor(m => m.LastName)
+@Html.LabelFor(m => m.LastName) 
+@Html.TextBoxFor(m => m.LastName)&lt;br />
+
+@Html.LabelFor(m => m.PhoneNumber) 
+@Html.TextBoxFor(m => m.PhoneNumber)&lt;br />
+
+&lt;input type="submit" value="Send inn" />
+
+}</code>
+</pre>
+Og vips, vi har tilbakemeldinger. Nå er de ikke så synlige, så vi vil farge de røde. Vi inspiserer html-en i nettleseren (høyreklikk -> inspect) og ser at validerings-teksten og de ugyldige feltene har fått egne html-klasser. Vi vil bruke disse til å synliggjøre det som mangler og legger til følgende i Site.css:
+<pre><code class="css">.validation-summary-errors, .field-validation-error {
+    color: red;
+}
+
+.input-validation-error {
+    border: 1px solid red;
+}</code></pre>
+Det eneste vi mangler nå er at feilmeldingene er på norsk. Vi legger derfor til feilmeldinger i <code>[Required]</code>-attributtene i <code>PersonModel</code>:
+<pre><code class="cs">[DisplayName("Fornavn")]
+[Required(ErrorMessage = "Fornavn er obligatorisk")]
+public string FirstName { get; set; }
+[DisplayName("Etternavn")]
+[Required(ErrorMessage =  "Etternavn er obligatorisk")]
+public string LastName { get; set; }
+</code></pre>
+</p>
+	
+	
+	<br>
+
+ <a href="oppgave3.html#3a"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

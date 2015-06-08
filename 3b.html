@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave3.html#3b"><= Tilbake</a>
+	<h3>Frontend-validering</h3>
+	<p>
+	Valideringen vår går nå via serveren. For å redusere antall requests mot serveren og ikke minst for å gi brukeren raskere feedback er det fint å legge på frontend-validering med JavaScript. Dette er allerede innebygget ved hjelp av <i>jQuery Unobtrusive Validation</i> - alt vi behøver er å legge til biblioteket.
+	</p>
+	<p>
+	Før vi legger det til ønsker vi å verifisere at vi faktisk går via serveren. For å gjøre det går vi til <code>PersonController</code> og legger til et <i>breakpoint</i> ved å trykke i margen i metoden:
+	<img src="img/3/breakpoint.png"
+	</p>
+	Den røde prikken indikerer at breakpoint et er satt. Bygg på nytt <strong>med debugging (F5)</strong>. Send inn skjemaet og koden stopper nå midt i Create-metoden. Benytt sjansen til å titte litt rundt i PersonModel-objektet, det kan være greit å gjøre når man skal debugge:
+	<img src="img/3/breakpoint2.png"
+	<br>
+	
+	<h3>Legge til jQuery Unobtrusive Validation</h3>
+	<p>
+		Vi er så heldig at JavaScriptet vi trenger allerede er med i standardoppsettet til MVC. Alt vi behøver å gjøre er å legge til scriptene nederst i <code>_Layout.cshtml</code>:
+		
+		<pre><code>@Scripts.Render("~/bundles/jqueryval")
+</code></pre>
+Refresh siden, og vips, vi har frontend-validering. For å teste det kan vi forsøke å sende inn en ugyldig person. Merk at vi får tilbakemeldinger umiddelbart, uten at breakpointet vårt i Visual Studio blir truffet.
+	</p>
+	<quotes><p><strong>Viktig:</strong> Husk at det aldri er nok med bare frontend-validering. Da kan brukeren enkelt komme forbi validering ved feks. å skru av JavaScript i nettleseren.</p></quotes>
+	
+	<br>
+ <a href="oppgave3.html#3b"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

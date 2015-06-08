@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nb-no">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave1.html#1c"><= Tilbake</a>
+	<h3>Endre standard route</h3>
+	
+	<p>
+		Standardoppsettet til MVC5 sender oss til <code>/Home/Index</code> når vi ikke spesifiserer noe, men dette er konfigurerbart. I <code>RouteConfig.cs</code> (i mappa <i>App_Start</i>) har vi følgende:
+		<pre><code class="cs">public static void RegisterRoutes(RouteCollection routes)
+{
+	routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+	routes.MapRoute(
+		name: "Default",
+		url: "{controller}/{action}/{id}",
+		defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+	);
+}</code>
+		</pre>
+				Dette konfigurasjonen heter <i>Default</i> (hva den heter spiller egentlig ingen rolle), og den sier at det første ordet etter / skal være navnet på Controlleren og det andre skal være navnet på Action. 
+				<br>Til slutt kommer en valgfri id. Det betyr at hvis vi hadde valgt å kalle parameteren i <code>Show()</code>-metoden vår for bare <i>id</i> (<code>Show(int id)</code>)kunne vi vist personen vår med <code>http://localhost:&lt;port&gt;/Person/Show/1337</code> i tillegg til <code>http://localhost:&lt;port&gt;/Person/Show?personId=1337</code>.
+	</p>
+	<p>
+	Det vi er ute etter er å endre standard-controlleren til å være <i>Person</i> i stedet for <i>Home</i>. Det kan vi enkelt gjøre med å skrive "Person" i stedet for "Home" på linja med <code>defaults:</code>.
+	</p>
+	<p>RouteConfig.cs ser nå slik ut:
+	<pre><code>public class RouteConfig
+{
+	public static void RegisterRoutes(RouteCollection routes)
+	{
+		routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+		routes.MapRoute(
+			name: "Default",
+			url: "{controller}/{action}/{id}",
+			defaults: new { controller = "Person", action = "Index", id = UrlParameter.Optional }
+		);
+	}
+}</code></pre>
+		Bygg på nytt (CTRL + F5). Verfiser at <code>http://localhost:&lt;port&gt;/</code> leder til <code>/Person/Index</code>.
+	<p>
+	
+<p>
+
+<h3>
+Fjerne linkene i hovedmenyen
+</h3>
+<p>
+Til tross for at vi nesten ikke har noe innhold i <code>Index.cshtml</code> har vi fremdeles menyen og diverse stilark (CSS-filer). Dette er samlet i en egen fil slik at vi skal slippe å skrive den samme koden i hvert eneste View. Denne <i>layouten</i> er definert i <code>ViewStart.cshtml</code> (i Views-mappa) som kjøres for hvert eneste View.<br>
+Den ser slik ut:
+<pre><code>@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+</code></pre>
+Sett <code>Layout = null;</code> og refresh siden.
+</p>
+
+
+ <a href="oppgave1.html#1c"><= Tilbake</a>
+</p>
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

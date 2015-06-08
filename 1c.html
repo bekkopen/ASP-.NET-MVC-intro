@@ -69,8 +69,43 @@ Den ser slik ut:
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 </code></pre>
+Her ser vi at vi setter standard-layouten for hver side til en annen .cstml-fil: 
+<code>"~/Views/Shared/_Layout.cshtml";</code>
 Sett <code>Layout = null;</code> og refresh siden.
 </p>
+<p>Ikke uventent har vi nå ikke lenger noe layout. Bytt tilbake til <code>"~/Views/Shared/_Layout.cshtml";</code> og gå til fila.
+</p>
+<p>
+Dette er en nokså vanlig html-fil med litt Razor-kode innimellom, men en linje er spesielt viktig å legge merke til:
+<pre><code>    @RenderBody()</code></pre>
+Denne sier nemlig hvor resten av innholde skal plasseres.
+</p>
+<p>
+Lenger opp ser vi en seksjon med linker:
+<pre><code class="html">	@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+&lt;/div>
+&lt;div class="navbar-collapse collapse">
+	&lt;ul class="nav navbar-nav">
+		&lt;li>@Html.ActionLink("Home", "Index", "Home")&lt;/li>
+		&lt;li>@Html.ActionLink("About", "About", "Home")&lt;/li>
+		&lt;li>@Html.ActionLink("Contact", "Contact", "Home")&lt;/li>
+	&lt;/ul>
+	@Html.Partial("_LoginPartial")
+&lt;/div>
+</code></pre>
+Vi fjerner linkene til sidene som ikke lenger eksisterer, og gjør om linkene til startsiden slik at de passer til vår nye Controller:
+<pre><code class="html">	@Html.ActionLink("MVC-intro", "Index", "Person", new { area = "" }, new { @class = "navbar-brand" })
+&lt;/div>
+&lt;div class="navbar-collapse collapse">
+	&lt;ul class="nav navbar-nav">
+		&lt;li>@Html.ActionLink("Startside", "Index", "Person")&lt;/li>
+	&lt;/ul>
+	@Html.Partial("_LoginPartial")
+&lt;/div>
+</code></pre>
+Refresh siden og se at menyen har endret seg. Test gjerne de nye linkene.
+</p>
+
 
 
  <a href="oppgave1.html#1c"><= Tilbake</a>

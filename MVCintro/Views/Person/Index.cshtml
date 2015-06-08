@@ -1,7 +1,24 @@
-﻿
+﻿@model MVCintro.Models.PersonModel
+
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+@Html.ActionLink("Link 1", "Show", new { @id = 13 }, new { @class="pull-right", id = "iden-til-linken" })
+
+<a href="@Url.Action("Show", new {@id = 13})">Link 2</a>
+
+@using (Html.BeginForm("Create", "Person")){
+
+@Html.LabelFor(m => m.FirstName) 
+@Html.TextBoxFor(m => m.FirstName)<br/>
+@Html.LabelFor(m => m.LastName) 
+@Html.TextBoxFor(m => m.LastName)<br />
+@Html.LabelFor(m => m.PhoneNumber) 
+@Html.TextBoxFor(m => m.PhoneNumber)<br />
+
+<input type="submit" value="Send inn" />
+
+}

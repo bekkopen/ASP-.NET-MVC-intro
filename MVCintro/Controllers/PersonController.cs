@@ -21,5 +21,12 @@ namespace MVCintro.Controllers
 
             return View(model);
         }
+
+
+        [HttpPost]
+        public ActionResult Create(PersonModel model)
+        {
+            return View("Show", model);
+        }
     }
 }

@@ -19,45 +19,31 @@
 
     <section class="main-content">
 	 <a href="index.html"><= Startside</a>
-	<h3>Oppgave 5 - Div</h3>
+	<h3>Oppgave 5 - Partials</h3>
+	<p>
+		I større applikasjoner får man ofte behov for å gjenbruke deler av Views eller tilogmed deler av Actions. Det kan derfor være greit å dele opp Views og Actions i <i>Partials</i>.
+	</p>
 	<h4>
 		<a id="5a" class="anchor" href="#5a" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
 		5a)
 		</h4>
 	<p>
-		Formattér fødselsdagsfeltet i <code>PersonModel</code> slik at det viser kun dato, uten å bruke metoden <code>ToShortDateString()</code> 
+		Flytt visningen av Fornavn, Etternavn og Telefonnummer inn i et <i>PartialView</i> og bruk dette til å vise personen i <i>Show.cshtml</i>.
+		<br>
 	</p>
-		<a href="4a.html">Guide</a>
-
-	
-	<h4>
-	<a id="4b" class="anchor" href="#4b" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-	4b)
-	</h4>
+		
+		
+		<a href="5a.html">Guide</a>	
+		
+		<h4>		
+		<a id="5b" class="anchor" href="#5b" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
+		5b)
+		</h4>
 	<p>
-		Endre <i>DisplayTemplate</i> for <code>DateTime</code> slik at DateTime-felter alltid blir &lt;strong>.
+		Endre Show-actionen i <code>PersonController</code> slik at den returnerer et <i>PartialView</i> dersom den blir kalt som en <i>ChildAction</i>. <br>
+		Bruk den til å vise personen under skjemaet med Ajax når man sender inn skjemaet fra <i>Index</i>.
 	</p>
-		<a href="4b.html">Guide</a>
-
-
-	<h4>
-	<a id="4c" class="anchor" href="#4c" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-	4c)
-	</h4>
-	<p>
-		Endre <i>EditorTemplate</i> for <code>DateTime</code> slik at redigeringsfelter for DateTime alltid får Html-klassen "datepicker".
-	</p>
-		<a href="4c.html">Guide</a>
-
-	
-	<h4>
-	<a id="4d" class="anchor" href="#4d" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-	4d)
-	</h4>
-	<p>
-		Lag en template for visning av fødselsnummer og bruk <code>UIHint</code>-annoteringen for å ta den i bruk. Fødselsnummer skal vises på formatet: 010199 12345
-	</p>
-		<a href="4d.html">Guide</a>
+		<a href="5b.html">Guide</a>
 
 	
 	
@@ -72,8 +58,8 @@ Oppgaver
  <li><a href="oppgave1.html">Oppgave 1</a></li>
   <li><a href="oppgave2.html">Oppgave 2</a></li>
  <li><a href="oppgave3.html">Oppgave 3</a></li>
- <li>Oppgave 4</li>
- <li><a href="oppgave5.html">Oppgave 5</a></li>
+ <li><a href="oppgave4.html">Oppgave 4</a></li>
+ <li>Oppgave 5</li>
  <li><a href="oppgave6.html">Oppgave 6</a></li>
  <li><a href="oppgave7.html">Oppgave 7</a></li>
  <li><a href="oppgave8.html">Oppgave 8</a></li>

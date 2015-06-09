@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave5.html#5a"><= Tilbake</a>
+	<h3>PartialView</h3>
+	<p>Et PartialView er akkurat det samme som et vanlig View, men det rendres ikke med layout og dermed kan det inkluderes i andre Views</p>
+	<p>
+		Det er vanlig konvensjon at navnet til PartialViews er prefixet med "_". Dette er ikke noe krav, men greit for utviklere for enkelt å identifisere at det er snakk om et PartialView.
+	</p>
+	<p>
+		Kopier <code>Show.cshtml</code> og døp det <i>_Show.cshtml</i>
+		Fjern alle feltene bortsett fra fornavn, etternavn og telefonnummer.
+		<br>
+		<code>_Show.cshtml</code>:
+		<pre><code class="html">@model MVCintro.Models.PersonModel
+&lt;p>@Html.DisplayNameFor(m => m.Id): @Html.DisplayFor(m => m.Id)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.FirstName): @Html.DisplayFor(m => m.FirstName)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.LastName): @Html.DisplayFor(m => m.LastName)&lt;/p></code></pre>
+		Legg til <code>Html.Partial("&lt;View-navn>", Model)</code> der feltene pleide å være.
+		<code>Show.cshtml</code>:
+		<pre><code class="html">@model MVCintro.Models.PersonModel
+
+&lt;h2>Person&lt;/h2>
+@Html.Partial("_Show", Model)
+&lt;p>@Html.DisplayNameFor(m => m.PhoneNumber): @Html.DisplayFor(m => m.PhoneNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.IdentityNumber): @Html.DisplayFor(m => m.IdentityNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.DateOfBirth): @Html.DisplayFor(m => m.DateOfBirth)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.EmailAddress): @Html.DisplayFor(m => m.EmailAddress)&lt;/p></code></pre>
+
+Vi refresher og ser at personen vises som før. Vi har ikke oppnådd noe med akkurat dette, men vi vil se i neste oppgave at <i>_Show.cshtml</i> kan gjenbrukes. 
+	</p>
+	
+
+	<br>
+
+ <a href="oppgave5.html#5a"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

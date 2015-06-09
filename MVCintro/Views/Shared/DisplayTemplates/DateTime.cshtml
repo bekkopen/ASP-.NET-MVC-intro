@@ -1,0 +1,14 @@
+﻿@using System.ComponentModel.DataAnnotations
+@model DateTime?
+
+@if (ViewData.ModelMetadata.DataTypeName == DataType.Date.ToString())
+{
+    if (Model.HasValue)
+    {
+        <strong>@Model.Value.ToShortDateString()</strong>
+    }
+}
+else
+{   
+    <strong>@Model</strong>
+}

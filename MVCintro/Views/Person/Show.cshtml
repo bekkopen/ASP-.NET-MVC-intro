@@ -1,11 +1,12 @@
 ﻿@model MVCintro.Models.PersonModel
 
 <h2>Person</h2>
-<p>Id: @Model.Id</p>
-<p>Fornavn: @Model.FirstName</p>
-<p>Etternavn: @Model.LastName</p>
-<p>Telefonnummer: @Model.PhoneNumber</p>
-<p>Personnummer: @Model.IdentityNumber</p>
-<p>Fødselsdato: @Model.DateOfBirth</p>
-<p>Epost: @Model.EmailAddress</p>
+<p>@Html.DisplayNameFor(m => m.Id): @Html.DisplayFor(m => m.Id)</p>
+<p>@Html.DisplayNameFor(m => m.FirstName): @Html.DisplayFor(m => m.FirstName)</p>
+<p>@Html.DisplayNameFor(m => m.LastName): @Html.DisplayFor(m => m.LastName)</p>
+<p>@Html.DisplayNameFor(m => m.PhoneNumber): @Html.DisplayFor(m => m.PhoneNumber)</p>
+<p>@Html.DisplayNameFor(m => m.IdentityNumber): @Html.DisplayFor(m => m.IdentityNumber)</p>
+<p>@Html.DisplayNameFor(m => m.DateOfBirth): @Html.DisplayFor(m => m.DateOfBirth)</p>
+<p>@Html.DisplayNameFor(m => m.EmailAddress): @Html.DisplayFor(m => m.EmailAddress)</p>
+
 

@@ -38,8 +38,10 @@ namespace MVCintro.Models
 
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Fødselsnummer må være 11 siffer")]
         [RegularExpression("[0-9]+", ErrorMessage = "Fødselsnummer kan ikke inneholde noe annet enn heltall")]
+        [UIHint("IdentityNumber")]
         public string IdentityNumber { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -17,7 +17,11 @@ namespace MVCintro.Controllers
 
         public ActionResult Show(int id = 1)
         {
-            var model = new PersonModel(id, "Nils", "Jensen", "9161166");
+            var model = new PersonModel(id, "Nils", "Jensen", "9161166")
+            {
+                DateOfBirth = new DateTime(1987,06,06),
+                IdentityNumber = "12345678910"
+            };
 
             return View(model);
         }

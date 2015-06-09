@@ -18,63 +18,41 @@
     </section>
 
     <section class="main-content">
- <a href="oppgave3.html#3c"><= Tilbake</a>
-	<h3>Legge til feltene</h3>
+ <a href="oppgave3.html#3d"><= Tilbake</a>
+	<h3>Custom validering</h3>
 	<p>
-		Det første vi må gjøre er å legge til feltene vi ønsker å validere i <code>PersonModel</code>:
-		<pre><code class="cs">public string EmailAddress { get; set; }
-
-public string IdentityNumber { get; set; }
-
-public DateTime? DateOfBirth { get; set; }</code></pre>
-Det kan være fristende å bruke <code>int</code> som type for fødselsnummeret, men det er strengt tatt ikke et tall.<br>
-</p>
-<quotes><p><strong>Hva er forskjellen på <i>"DateTime"</i> og <i>"DateTime?"</i> &nbsp;&nbsp; ?</strong><br>
-				Typer med <i>?</i> bak er såkalt <i>nullable</i> typer. Det betyr rett og slett at de har lov til å være <i>null</i>. Typer som ikke er nullable får en default-verdi istedet for <i>null</i> hvis de ikke er satt. Hvis vi ikke setter fødselsdatoen til å være en nullable type og brukeren ikke fyller den ut vil den automatisk få en default-verdi (01.01.0001).<br>
-				</p></quotes>
- 
-	<h3>Valideringsattributter</h3>
-	<p>
-		Det finnes mange attributter man kan annotere felter med for å benytte den innebygde valideringen i MVC:
-		<ul>
-		<li>[Required] - Feltet er obligatorisk</li>
-		<li>[Range] - For tall, tallet må være mellom x og y</li>
-		<li>[StringLength] - Lengden på input må være mellom x og y</li>
-		<li>[RegularExpression] - Input må match et gitt <i>regular expression</i></li>
-			<li>[EmailAddress] - ...</li>
-		</ul>
+		Det går an å lage egne attributter for validering, og ofte er det en god idé, spesielt hvis man kan gjenbruke de på tvers av modeller.
 	</p>
 	<p>
-		Vi slenger de på i <code>PersonModel</code>:
-		<pre><code class="cs">[EmailAddress]
-public string EmailAddress { get; set; }
-
-[StringLength(11, MinimumLength = 11, ErrorMessage = "Fødselsnummer må være 11 siffer")]
-[RegularExpression("[0-9]+", ErrorMessage = "Fødselsnummer kan ikke inneholde noe annet enn heltall")]
-public string IdentityNumber { get; set; }
-
-public DateTime? DateOfBirth { get; set; }</code></pre>
-Siden MVC også benytter datatypen til å validere behøver vi kke gjøre noe med <code>DateOfBirth</code>, med mindre vi vil gjøre den obligatorisk.
+		Har man derimot mer spesifikk validering på en bestemt modell, feks. kombinasjon av felter, avhengigheter mot databasen eller lignende, kan det være greit å implementere en valideringsmetode.<br>
+		Ved å implementere interface <code>IValidatableObject</code> sørger man for at MVC-rammeverket automatisk kaller valideringsmetoden.	
 	</p>
-	<p>
-	For å få testet vår nye validering legger vi til feltene i <code>Index.cshtml</code>:
-	<pre><code class="cs">@Html.LabelFor(m => m.EmailAddress)
-@Html.TextBoxFor(m => m.EmailAddress)&lt;br/>
-    
-@Html.LabelFor(m => m.DateOfBirth)
-@Html.EditorFor(m => m.DateOfBirth)&lt;br/>
-    
-@Html.LabelFor(m => m.IdentityNumber)
-@Html.EditorFor(m => m.IdentityNumber)&lt;br /></code></pre>
-	 og <code>Show.cshtml</code>:
-		<pre><code class="html">&lt;p>Personnummer: @Model.IdentityNumber&lt;/p>
-&lt;p>Fødselsdato: @Model.DateOfBirth&lt;/p>
-&lt;p>Epost: @Model.EmailAddress&lt;/p></code></pre>
+<p>Implementer <code>IValidatableObject</code> i <code>PersonModel</code>
+<img src="img/3/ivalidatable.png" />
+Trykk på den røde lampa (ALT + ENTER) og velg <i>Implement missing members</i><br>
+Vi får følgende metode: <pre><code class="cs">public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+{
+	throw new NotImplementedException();
+}</code></pre>
+	
+Nå gjenstår det bare å legge til valideringslogikken i metoden.<br>
+Vi ønsker å lage en liste med <code>ValidationResult</code> og legge til eventuelle feil i den lista:
+<pre><code class="cs">public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+{
+	var result = new List<ValidationResult>();
 
-Og bygger på nytt (CTRL + F5).
+	if (FirstName.Length + LastName.Length < 5)
+	{
+		var validationResult = new ValidationResult("For- og etternavn må totalt være minst 5 bokstaver", new[] { "FirstName", "LastName" });
+		result.Add(validationResult);
+	}
+	return result;
+}</code></pre>
+	Bygg og test!
 	</p>
+
 	<br>
- <a href="oppgave3.html#3c"><= Tilbake</a>
+ <a href="oppgave3.html#3d"><= Tilbake</a>
 
     </section>  
   </body>

@@ -18,13 +18,27 @@
     </section>
 
     <section class="main-content">
- <a href="oppgave4.html#4b"><= Tilbake</a>
-	<h3>Formattering med annoteringer</h3>
-	
+ <a href="oppgave4.html#4d"><= Tilbake</a>
+	<h3>UIHint</h3>
+	<p>
+	Noen ganger har vi ikke lyst til å lage en template for alle felter av en type, men heller markere noen felter med hvilken DisplayTemplate vi vil bruke.<br>
+	For å formattere fødselsnummeret kan vi derfor lage en egen template,<br>
+	<code>Views/Shared/DisplayTemplates/IdentityNumber.cshtml</code>:
+	<pre><code class="cs">@model string
+           
+@string.Format("{0} {1}", Model.Substring(0, 6), Model.Substring(6, 5))	</code></pre>
+	</p>
 
+	<p>For å ta den i bruk må vi markere IdentityNumber-feltet vårt i <code>PersonModel</code> med <br><code>[UIHint("&lt;Templatenavn>")]</code>:
+	<pre><code class="cs">[UIHint("IdentityNumber")]
+public string IdentityNumber { get; set; }</code></pre>
+
+For å teste er det bare å legge til et personnummer på personen i <code>PersonController</code>, bygge på bytt og gå til <i>/Person/Show</i>
+	</p>
 	<br>
 
- <a href="oppgave4.html#4b"><= Tilbake</a>
+	
+ <a href="oppgave4.html#4d"><= Tilbake</a>
 
     </section>  
   </body>

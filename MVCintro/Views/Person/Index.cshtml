@@ -12,12 +12,25 @@
 
 @using (Html.BeginForm("Create", "Person")){
 
+@Html.ValidationSummary()
+@Html.ValidationMessageFor(m => m.FirstName)    
 @Html.LabelFor(m => m.FirstName) 
-@Html.TextBoxFor(m => m.FirstName)<br/>
+@Html.TextBoxFor(m => m.FirstName)
+  <br/>
+@Html.ValidationMessageFor(m => m.LastName)
 @Html.LabelFor(m => m.LastName) 
 @Html.TextBoxFor(m => m.LastName)<br />
-@Html.LabelFor(m => m.PhoneNumber) 
-@Html.TextBoxFor(m => m.PhoneNumber)<br />
+@Html.LabelFor(m => m.PhoneNumber)
+@Html.TextBoxFor(m => m.PhoneNumber)<br/>
+    
+@Html.LabelFor(m => m.EmailAddress)
+@Html.TextBoxFor(m => m.EmailAddress)<br/>
+    
+@Html.LabelFor(m => m.DateOfBirth)
+@Html.EditorFor(m => m.DateOfBirth)<br/>
+    
+@Html.LabelFor(m => m.IdentityNumber)
+@Html.EditorFor(m => m.IdentityNumber)<br />
 
 <input type="submit" value="Send inn" />
 

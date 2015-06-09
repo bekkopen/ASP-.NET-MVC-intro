@@ -26,7 +26,11 @@ namespace MVCintro.Controllers
         [HttpPost]
         public ActionResult Create(PersonModel model)
         {
-            return View("Show", model);
+            if (ModelState.IsValid)
+            {
+                return View("Show", model);
+            }
+            return View("Index", model);
         }
     }
 }

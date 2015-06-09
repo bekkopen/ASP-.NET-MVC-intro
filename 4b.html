@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave4.html#4b"><= Tilbake</a>
+	<h3>Formattering med DisplayTemplates</h3>
+	<p>Hvis formatteringen fra de innebygde annotasjonene ikke er tilstrekkelig kan vi lage vår egen <i>DisplayTemplate</i>. Alt vi behøver å gjøre er å lage en .cshtml-fil som heter det samme som datatypen og legge den i riktig mappe.</p><p>
+	MVC leter etter displaytemplates i <i>Views/Shared/DisplayTemplates</i>.
+	<code>Views/Shared/DisplayTemplates/DateTime.cshtml</code>:
+	<pre><code class="html">@model DateTime?
+
+&lt;strong>@Model&lt;/strong></code></pre>
+Og vips: datoen er <strong>bold</strong>.<br>
+Men nå vises klokkeslettet igjen. Vår nye template tar ikke hensyn til DataType-annoteringen.<br>
+Det kan vi heldigvis gjøre noe med:
+<pre><code class="html">@using System.ComponentModel.DataAnnotations
+@model DateTime?
+
+@if (ViewData.ModelMetadata.DataTypeName == DataType.Date.ToString())
+{
+    if (Model.HasValue)
+    {
+        &lt;strong>@Model.Value.ToShortDateString()&lt;/strong>
+    }
+}
+else
+{   
+    &lt;strong>@Model&lt;/strong>
+}</code></pre>
+
+
+
+	</p>
+
+	<br>
+
+	<a href="oppgave4.html#4b"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

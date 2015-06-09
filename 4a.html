@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave4.html#4a"><= Tilbake</a>
+	<h3>Formattering med annoteringer</h3>
+	<p>Den enkleste måten for oss å tvinge fødselsdato-feltet til å vises uten klokkeslett er å annotere feltet i <code>PersonModel</code>:
+
+	<pre><code class="cs">[DataType(DataType.Date)]
+public DateTime? DateOfBirth { get; set; }</code></pre>
+Det finnes mange andre datatyper vi kan benytte oss av, feks CreditCard, EmailAddress eller Currency. Disse gjør ikke validering, kun formattering av visningen.
+	
+</p>
+<p>
+	For enkelhets skyld setter vi fødselsdatoen i Show-metoden på <code>PersonController</code> 
+	<pre><code class="cs">public ActionResult Show(int id = 1)
+{
+	var model = new PersonModel(id, "Nils", "Jensen", "9161166")
+	{
+		DateOfBirth = new DateTime(1987,06,06)
+	};
+
+	return View(model);
+}</code></pre>
+	slik at vi slipper å fylle ut skjemaet hver gang. <br>
+	Vi bygger på nytt og går til <i>/Person/Show</i>.
+</p>
+	
+	<p>Klokkeslettet vises fremdeles, hvorfor det?<br>
+	I <code>Show.cshtml</code> spytter vi bare ut C#-verdien. Vi kunne skrevet <code>@Model.DateOfBirth.Value.ToShortDateString()</code> men det er dumt av to grunner:
+	<ul>
+	<li>Det vil feile <i>(NullReferenceException)</i> hvis <i>DateOfBirth</i> ikke er satt.</li>
+	<li>Hvis vi ønsker å endre det må vi gjøre det hvert eneste sted vi viser en DateTime</li>
+	</ul>
+	</p>
+	<p>
+	Løsningen er å bruke en Html helper for visningen:
+	<pre><code class="cs">@Html.DisplayFor(m => m.DateOfBirth)</code></pre>
+	Det er ansett som beste praksis å alltid bruke denne hjelperen for å vise datafelter fra modellen.
+		</p>
+		<p>
+		Imens vi er igang innser vi at det er dumt å hardkode navnene også, vi vil heller bruke navnene fra modellen:
+			<pre><code class="cs">@Html.DisplayNameFor(m => m.DateOfBirth)</code></pre>
+
+		</p>
+		<p>
+		<code>Show.cshtml</code> ser nå slik ut:
+					<pre><code class="html">@model MVCintro.Models.PersonModel
+
+&lt;h2>Person&lt;/h2>
+&lt;p>@Html.DisplayNameFor(m => m.Id): @Html.DisplayFor(m => m.Id)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.FirstName): @Html.DisplayFor(m => m.FirstName)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.LastName): @Html.DisplayFor(m => m.LastName)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.PhoneNumber): @Html.DisplayFor(m => m.PhoneNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.IdentityNumber): @Html.DisplayFor(m => m.IdentityNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.DateOfBirth): @Html.DisplayFor(m => m.DateOfBirth)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.EmailAddress): @Html.DisplayFor(m => m.EmailAddress)<&lt;/p></code></pre>
+Vi refresher skjermbildet og verifiserer at det virker.
+		</p>
+
+
+	<br>
+
+ <a href="oppgave4.html#4a"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

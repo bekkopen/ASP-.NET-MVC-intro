@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave4.html#4b"><= Tilbake</a>
+	<h3>Formattering med EditorTemplates</h3>
+	<p>
+		På lik linje med DisplayTemplates for visning har vi EditorTemplates for redigering (felter i skjema).<br>
+		Vi har lyst til å bruke jQuery Datepicker på alle datofeltene våre, og for å få til det vil vi legge på Html-klassen "datepicker".
+	</p>
+	<p>
+	MVC leter etter editortemplates i <i>Views/Shared/EdtiorTemplates</i>.<br>
+	Siden vi har satt <code>[DateType(DataType.Date)]</code> på datofeltet vårt kan vi kalle templaten vår for <i>Date.cshtml</i>. Hadde vi ikke gjort det måtte den hett <i>DateTime.cshtml</i>
+	<code>Views/Shared/EditorTemplates/Date.cshtml</code>:
+	<pre><code class="html">@model DateTime?
+	
+@Html.TextBoxFor(m => Model, new {@class = "datepicker"})</code></pre>
+	For å bevare alle de viktige Html-attributtene som benyttes for validering bruker vi Html-hjelperen <code>Html.TextBoxFor()</code>.
+	</p>
+	
+	<p>
+	Inspiser datofeltet i nettleseren (høyre-klikk -> inspect). Vi har alle de viktige feltene og Html-klassen vi la til.<br>
+	For å legge på jQuery Datepicker må vi inkludere js og css fra jQuery UI nederst i <i>_Layout.cshtml</i>, og kalle .datepicker()-metoden:
+	<pre><code class="html">&lt;link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js" type="text/javascript">&lt;/script>
+&lt;script>
+	$('.datepicker').datepicker()
+&lt;/script></code></pre>
+	Velg fødselsdato på nytt og sjekk at den nye hippe datovelgern er på plass.
+
+	</p>
+
+	<br>
+ <a href="oppgave4.html#4b"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

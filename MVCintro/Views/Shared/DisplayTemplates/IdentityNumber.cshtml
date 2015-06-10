@@ -1,3 +1,6 @@
 ﻿@model string
-           
-@string.Format("{0} {1}", Model.Substring(0, 6), Model.Substring(6, 5))
+
+@if (Model != null && Model.Length >= 11)
+{
+    <span>@string.Format("{0} {1}", Model.Substring(0, 6), Model.Substring(6, 5))</span>
+}

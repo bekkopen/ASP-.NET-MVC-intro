@@ -25,8 +25,12 @@
 	For å formattere fødselsnummeret kan vi derfor lage en egen template,<br>
 	<code>Views/Shared/DisplayTemplates/IdentityNumber.cshtml</code>:
 	<pre><code class="cs">@model string
-           
-@string.Format("{0} {1}", Model.Substring(0, 6), Model.Substring(6, 5))	</code></pre>
+
+@if (Model != null && Model.Length >= 11)
+{
+    <span>@string.Format("{0} {1}", Model.Substring(0, 6), Model.Substring(6, 5))</span>
+}</code></pre>
+Vi gjør en null-sjekk og sjekker lengden på stringen slik at det ikke feiler hvis vi får feil input.
 	</p>
 
 	<p>For å ta den i bruk må vi markere IdentityNumber-feltet vårt i <code>PersonModel</code> med <br><code>[UIHint("&lt;Templatenavn>")]</code>:

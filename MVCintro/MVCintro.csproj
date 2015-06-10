@@ -229,6 +229,8 @@
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\IdentityNumber.cshtml" />
+    <Content Include="Views\Person\_Show.cshtml" />
+    <Content Include="Views\Person\_PersonForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

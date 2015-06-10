@@ -23,6 +23,9 @@ namespace MVCintro.Controllers
                 IdentityNumber = "12345678910"
             };
 
+            if (RequestIsAjaxOrChild())
+                return PartialView(model);
+
             return View(model);
         }
 
@@ -30,11 +33,17 @@ namespace MVCintro.Controllers
         [HttpPost]
         public ActionResult Create(PersonModel model)
         {
-            if (ModelState.IsValid)
-            {
-                return View("Show", model);
-            }
-            return View("Index", model);
+
+            if (RequestIsAjaxOrChild())
+                return ModelState.IsValid ? PartialView("Show", model) : PartialView("Index", model);
+            
+            return ModelState.IsValid ? View("Show", model) : View("Index", model);
+
+        }
+
+        private bool RequestIsAjaxOrChild()
+        {
+            return Request.IsAjaxRequest() || ControllerContext.IsChildAction;
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model MVCintro.Models.PersonModel
+
+
+    @using (Html.BeginForm("Create", "Person"))
+    {
+
+        @Html.ValidationSummary()
+        @Html.ValidationMessageFor(m => m.FirstName)
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName)
+        <br />
+        @Html.ValidationMessageFor(m => m.LastName)
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName)<br />
+        @Html.LabelFor(m => m.PhoneNumber)
+        @Html.TextBoxFor(m => m.PhoneNumber)<br />
+
+        @Html.LabelFor(m => m.EmailAddress)
+        @Html.TextBoxFor(m => m.EmailAddress)<br />
+
+        @Html.LabelFor(m => m.DateOfBirth)
+        @Html.EditorFor(m => m.DateOfBirth)<br />
+
+        @Html.LabelFor(m => m.IdentityNumber)
+        @Html.EditorFor(m => m.IdentityNumber)<br />
+
+        <input type="submit" value="Send inn" />
+
+    }
+
+
+
+    <script>
+       
+            var form = $("form");
+
+            form.submit(function (e) {
+                // Hindre skjemaet i å sendes inn på vanlig måte
+                e.preventDefault();
+
+                // Samle input-dataen i en string
+                var input = form.serialize();
+
+                // Hent url fra action-attributten til skjemaet
+                var url = form.attr('action');
+
+                // Post skjemaet med ajax
+                $.post(url, input, function (data) {
+                    // Sett inn resultatet i div'en med id 'person-info'
+                    $('#person-info').html(data);
+                });
+
+            });
+        
+    </script>

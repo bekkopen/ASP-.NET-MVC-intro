@@ -22,6 +22,7 @@ namespace MVCintro.Models
             
         }
 
+      
         public int Id { get; set; }
         
         [DisplayName("Fornavn")]

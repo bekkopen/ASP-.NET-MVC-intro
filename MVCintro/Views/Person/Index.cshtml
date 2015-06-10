@@ -1,37 +1,24 @@
-﻿@model MVCintro.Models.PersonModel
+﻿@using MVCintro.Models
+@model MVCintro.Models.PersonModel
 
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Index</h2>
-
-@Html.ActionLink("Link 1", "Show", new { @id = 13 }, new { @class="pull-right", id = "iden-til-linken" })
+@Html.ActionLink("Link 1", "Show", new { @id = 13 }, new { @class = "pull-right", id = "iden-til-linken" })
 
 <a href="@Url.Action("Show", new {@id = 13})">Link 2</a>
 
-@using (Html.BeginForm("Create", "Person")){
+<hr/>
+<h3>Person1 1:</h3>
+@Html.Partial("_Show", new PersonModel(1337, "Frank", "Hansen", "13371337"))
 
-@Html.ValidationSummary()
-@Html.ValidationMessageFor(m => m.FirstName)    
-@Html.LabelFor(m => m.FirstName) 
-@Html.TextBoxFor(m => m.FirstName)
-  <br/>
-@Html.ValidationMessageFor(m => m.LastName)
-@Html.LabelFor(m => m.LastName) 
-@Html.TextBoxFor(m => m.LastName)<br />
-@Html.LabelFor(m => m.PhoneNumber)
-@Html.TextBoxFor(m => m.PhoneNumber)<br/>
-    
-@Html.LabelFor(m => m.EmailAddress)
-@Html.TextBoxFor(m => m.EmailAddress)<br/>
-    
-@Html.LabelFor(m => m.DateOfBirth)
-@Html.EditorFor(m => m.DateOfBirth)<br/>
-    
-@Html.LabelFor(m => m.IdentityNumber)
-@Html.EditorFor(m => m.IdentityNumber)<br />
+<hr />
+<h3>Person 2:</h3>
+@Html.Action("Show")
 
-<input type="submit" value="Send inn" />
+<hr/>
 
-}
+<div id="person-info">
+    @Html.Partial("_PersonForm", Model)
+</div>

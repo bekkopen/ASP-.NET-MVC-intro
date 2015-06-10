@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave6.html#6a"><= Tilbake</a>
+	<h3>Property getters og setters</h3>
+	<p>Du har sikkert lagt merke til vi skriver feltene våre med {get;set;} bak på <code>PersonModel</code>. <br>
+	Det betyr at man har lov til både å lese fra og skrive til feltet på objektet. Ofte har vi felter som inneholder noe logikk, eller som kombinerer andre felter. Da kan man bruker get-metoden til å regne det ut, istedet for å dobbelt-lagre informasjon. <br>
+Vi legger til feltene i PersonModel:
+	<pre><code class="cs">public string FullName
+{
+	get
+	{
+		return string.Format("{0} {1}", FirstName, LastName);
+	}
+}
+
+public int? Age
+{
+	get
+	{
+		if (DateOfBirth != null)
+		{
+			var today = DateTime.Today;
+			int age = today.Year - DateOfBirth.Value.Year;
+			if (DateOfBirth > today.AddYears(-age)) age--;
+			return age;
+		}
+
+		return null;
+	}
+}</code></pre>
+	
+	
+	</p>
+	<p>Og i <code>Show.cshtml</code>:
+	<pre><code>@MVCintro.Models.PersonModel
+
+<strong>&lt;h2>@Html.DisplayFor(m => m.FullName)&lt;/h2></strong>
+@Html.Partial("_Show", Model)
+&lt;p>@Html.DisplayNameFor(m => m.PhoneNumber): @Html.DisplayFor(m => m.PhoneNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.IdentityNumber): @Html.DisplayFor(m => m.IdentityNumber)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.DateOfBirth): @Html.DisplayFor(m => m.DateOfBirth)&lt;/p>
+&lt;p>@Html.DisplayNameFor(m => m.EmailAddress): @Html.DisplayFor(m => m.EmailAddress)&lt;/p>
+<strong>&lt;p>@Html.DisplayNameFor(m => m.Age): @Html.DisplayFor(m => m.Age)&lt;/p></strong></code></pre>
+Bygg og test.
+
+	</p>
+	<br>
+
+ <a href="oppgave6.html#6a"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

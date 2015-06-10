@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave6.html#6c"><= Tilbake</a>
+	<h3>Custom Html helper</h3>
+	<p>Noen ganger kan det være kjekt å lage sine egne Html helpers. For å gjøre det bygger vi bare en <i>extension</i> på den innebygde Html klassen i vår egen klasse.</p>
+	
+	<p>Vi lager en ny mappe, kaller den <i>Extensions</i> og lager en ny <i>static</i> klasse som heter <code>HtmlHelper</code>:
+	<pre><code>public static class HtmlHelpers
+    {
+        public static MvcHtmlString UnorderedList(this HtmlHelper htmlHelper, IEnumerable<string> list)
+        {
+            var ul = new TagBuilder("ul");
+            var listString = new StringBuilder();
+         
+            foreach (var item in list)
+            {
+                var li = new TagBuilder("li");
+                li.SetInnerText(item);
+                listString.Append(li);
+            }
+            ul.InnerHtml = listString.ToString();
+
+            return MvcHtmlString.Create(ul.ToString());
+        } 
+    }</code></pre>
+	Vi bruker klassen <i>TagBuilder</i> til å lage en &lt;ul>-tag, og bygger &lt;li>-tags utfra listen som blir sendt inn.
+
+	
+	</p>
+<p>
+	Vi kan teste vår nye liste i <code>Index.cshtml</code>:
+		<pre><code class="html">&lt;h2>UL&lt;/h2>
+@Html.UnorderedList(new[] {"Frank", "Per", "Ole"})
+&lt;hr/></code></pre>
+Og vips, det funker!
+</p>
+<p>
+For å gjøre helperen vår lettere å bruke, benytter vi oss av et supertriks i C# og skriver den om til å ta inn lista på formen <code>params string[] list</code>:
+<pre><code>public static MvcHtmlString UnorderedList(this HtmlHelper htmlHelper, params string[] list){
+	.....
+}
+</code></pre>
+Det betyr at vi fremdeles kan sende inn en liste, men vi kan også sende inn kommaseparerte strings på denne måten:
+<pre><code>@Html.UnorderedList("Frank", "Per", "Ole", "Jarle")<code/></pre>
+</p>
+	
+	
+<br>	<a href="oppgave6.html#6c"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+

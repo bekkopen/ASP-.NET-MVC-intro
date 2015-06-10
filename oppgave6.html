@@ -19,41 +19,37 @@
 
     <section class="main-content">
 	 <a href="index.html"><= Startside</a>
-	<h3>Oppgave 5 - Partials</h3>
-	<p>
-		I større applikasjoner får man ofte behov for å gjenbruke deler av Views eller tilogmed deler av Actions. Det kan derfor være greit å dele opp Views og Actions i <i>Partials</i>.
-	</p>
+	<h3>Oppgave 6 - Div</h3>
 	<h4>
-		<a id="5a" class="anchor" href="#5a" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-		5a)
+		<a id="6a" class="anchor" href="#6a" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
+		6a)
 		</h4>
 	<p>
-		Flytt visningen av Fornavn, Etternavn og Telefonnummer inn i et <i>PartialView</i> og bruk dette til å vise personen i <i>Show.cshtml</i>.
-		<br>
+		Lag et felt på <code>PersonModel</code> som heter FullName. Ikke gi det noen <i>setter</i>, men lag en <i>getter</i> som kombinerer for- og etternavn. <br>
+		Lag et tilsvarende for alder som benytter seg av fødselsdatoen.
 	</p>
 		
 		
-		<a href="5a.html">Guide</a>	
+		<a href="6a.html">Guide</a>	
 		
 		<h4>		
-		<a id="5b" class="anchor" href="#5b" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-		5b)
+		<a id="6b" class="anchor" href="#6b" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
+		6b)
 		</h4>
 	<p>
-		Endre Show-actionen i <code>PersonController</code> slik at den returnerer et <i>PartialView</i> dersom den blir kalt som en <i>AjaxAction</i>. <br>
-		Bruk den til å vise personinformasjonen der hvor skjemaet var.
+		Lag en test i testprosjektet som tester at <i>FullName</i>-feltet oppfører seg som det skal.
 	</p>
-	<a href="5b.html">Guide</a>
+	<a href="6b.html">Guide</a>
 
 	
 			<h4>		
-		<a id="5c" class="anchor" href="#5c" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
-		5c)
+		<a id="6c" class="anchor" href="#6c" aria-hidden="true"><span class="octicon octicon-link"></span></a> 
+		6c)
 		</h4>
 	<p>
-		Flytt selve skjemaet og det tilhørende scriptet inn i et eget PartialView, og endre Controlleren tilsvarende. Bruk <code>Html.Action</code> og <code>Html.Partial</code> til å vise noen testpersoner øverst i <code>Index.cshtml</code>.
+		Lag en egen Html helper som lager en <i>unordered list (ul)</i> i Html.
 	</p>
-	<a href="5c.html">Guide</a>
+	<a href="6c.html">Guide</a>
 	
 	
 <h3>

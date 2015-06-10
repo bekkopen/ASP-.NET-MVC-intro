@@ -18,39 +18,91 @@
     </section>
 
     <section class="main-content">
- <a href="oppgave5.html#5a"><= Tilbake</a>
-	<h3>PartialView</h3>
-	<p>Et PartialView er akkurat det samme som et vanlig View, men det rendres ikke med layout og dermed kan det inkluderes i andre Views</p>
+ <a href="oppgave5.html#5b"><= Tilbake</a>
+	<h3>Sende form med Ajax</h3>
+	<quotes><p><strong>Hva er Ajax?</strong><br>
+	Ajax, eller Asynkron JavaScript og XML, er en webutviklingsteknikk for å lage interaktive nettsider. Dette gjøres ved at sidene utveksler litt og litt data med serveren i bakgrunnen, i stedet for å laste hele siden på nytt hver gang brukeren gjør en forandring. Vi bruker ofter jQuery for å skrive Ajax-requests.
+	</p></quotes>
+	<p>Det første vi vil gjøre er å endre slik at skjemaet sendes inn med Ajax. Dette gjør vi i JavaScript som vi legger nederst i Index. Normalt vil vi legge det i en egen fil ettersom det er gunstig med tanke på caching, minification osv, men for denne oppgaven legger vi det bare nederst i <code>Index.cshtml</code>.</p>
+	
+	<pre><code class="html">&lt;script></code><code class="js">
+	
+	var form = $("form");
+
+	form.submit(function (e) {
+		// Hindre skjemaet i å sendes inn på vanlig måte
+		e.preventDefault();
+
+		// Samle input-dataen i en string
+		var input = form.serialize();
+
+		// Hent url fra action-attributten til skjemaet
+		var url = form.attr('action');
+
+		// Post skjemaet med ajax
+		$.post(url, input, function (data) {
+			// Sett inn resultatet i div'en med id 'person-info'
+			$('#person-info').html(data);
+		});
+
+});</code><code class="html">
+&lt;/script></code></pre>
+<p>For at vi skal ha et sted å plassere innholdet må vi pakke inn hele <code>Index.cshtml</code> i en <i>div</i> med en passende id: <pre><code>&lt;div id="person-info">
+    &lt;h2>Index</h2>
+	.......
+&lt;/div></code></pre>
+
+</p>
+	<p>I tillegg må vi flytte lastningen av jQuery øverst i <code>_Layout.cshtml</code> slik at det er tilgjengelig når html-en lastets. Legg den head under modernir:
+<pre><code>&lt;head>
+	&lt;meta charset="utf-8" />
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
+	&lt;title>@ViewBag.Title - My ASP.NET Application&lt;/title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+	<strong>@Scripts.Render("~/bundles/jquery")   </strong> 
+&lt;/head></code></pre>
+	
+	
+	
 	<p>
-		Det er vanlig konvensjon at navnet til PartialViews er prefixet med "_". Dette er ikke noe krav, men greit for utviklere for enkelt å identifisere at det er snakk om et PartialView.
+		Vi refresher <i>Index</i> og sender inn skjemaet.<br>
+		Det funker det, men vi får footeren to ganger. Hmmmm. Vi inspiserer person-info-diven og ser at vi har fått hele skjermbildet på nytt, inkludert menyen, stylesheets, JavaScript - alt som er i <i>_Layout.cshtml</i>.
+		
 	</p>
 	<p>
-		Kopier <code>Show.cshtml</code> og døp det <i>_Show.cshtml</i>
-		Fjern alle feltene bortsett fra fornavn, etternavn og telefonnummer.
-		<br>
-		<code>_Show.cshtml</code>:
-		<pre><code class="html">@model MVCintro.Models.PersonModel
-&lt;p>@Html.DisplayNameFor(m => m.Id): @Html.DisplayFor(m => m.Id)&lt;/p>
-&lt;p>@Html.DisplayNameFor(m => m.FirstName): @Html.DisplayFor(m => m.FirstName)&lt;/p>
-&lt;p>@Html.DisplayNameFor(m => m.LastName): @Html.DisplayFor(m => m.LastName)&lt;/p></code></pre>
-		Legg til <code>Html.Partial("&lt;View-navn>", Model)</code> der feltene pleide å være.
-		<code>Show.cshtml</code>:
-		<pre><code class="html">@model MVCintro.Models.PersonModel
+		For å fikse dette må vi gjøre noen grep i <code>PersonController</code>:
+		<pre>
+		<code class="cs">
+[HttpPost]
+public ActionResult Create(PersonModel model)
+{
+	if (ModelState.IsValid)
+	{
+		if (Request.IsAjaxRequest())
+		{
+			return PartialView("Show", model);
+		}
+		return View("Show", model);
+	}
 
-&lt;h2>Person&lt;/h2>
-@Html.Partial("_Show", Model)
-&lt;p>@Html.DisplayNameFor(m => m.PhoneNumber): @Html.DisplayFor(m => m.PhoneNumber)&lt;/p>
-&lt;p>@Html.DisplayNameFor(m => m.IdentityNumber): @Html.DisplayFor(m => m.IdentityNumber)&lt;/p>
-&lt;p>@Html.DisplayNameFor(m => m.DateOfBirth): @Html.DisplayFor(m => m.DateOfBirth)&lt;/p>
-&lt;p>@Html.DisplayNameFor(m => m.EmailAddress): @Html.DisplayFor(m => m.EmailAddress)&lt;/p></code></pre>
 
-Vi refresher og ser at personen vises som før. Vi har ikke oppnådd noe med akkurat dette, men vi vil se i neste oppgave at <i>_Show.cshtml</i> kan gjenbrukes. 
+	if (Request.IsAjaxRequest())
+	{
+		return PartialView("Index", model);
+	}
+
+	return View("Index", model);
+}
+	</code></pre>
+	Vi bygger på nytt og ser at det funker.<br>
+	Det fine nå er at vi ikke behøver å laste hele siden på nytt, så vi sparer trafikk og brukern får rask tilbakemelding. I tillegg har vi <i>fallback</i> hvis JavaScript ikke er på - da fungerer det som før.
 	</p>
 	
-
+	
 	<br>
 
- <a href="oppgave5.html#5a"><= Tilbake</a>
+ <a href="oppgave5.html#5b"><= Tilbake</a>
 
     </section>  
   </body>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mvc-intro by severisv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" href="lib/highlight/styles/atelier-heath.light.css">
+
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">MVC-intro</h1>
+      <h2 class="project-tagline">Introduksjon til ASP.NET MVC5</h2>
+    </section>
+
+    <section class="main-content">
+ <a href="oppgave5.html#5c"><= Tilbake</a>
+	<h3>Trekke ut skjemaet</h3>
+	<p>Vi trekker ut bare skjema-delen i et eget form.<br>
+	<code>_PersonForm.cshtml</code>:
+	<pre><code class="html">@model MVCintro.Models.PersonModel
+
+
+    @using (Html.BeginForm("Create", "Person"))
+    {
+
+        @Html.ValidationSummary()
+        @Html.ValidationMessageFor(m => m.FirstName)
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName)
+        &lt;br />
+        @Html.ValidationMessageFor(m => m.LastName)
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName)&lt;br />
+        @Html.LabelFor(m => m.PhoneNumber)
+        @Html.TextBoxFor(m => m.PhoneNumber)&lt;br />
+
+        @Html.LabelFor(m => m.EmailAddress)
+        @Html.TextBoxFor(m => m.EmailAddress)&lt;br />
+
+        @Html.LabelFor(m => m.DateOfBirth)
+        @Html.EditorFor(m => m.DateOfBirth)&lt;br />
+
+        @Html.LabelFor(m => m.IdentityNumber)
+        @Html.EditorFor(m => m.IdentityNumber)&lt;br />
+
+        &lt;input type="submit" value="Send inn" />
+
+    }
+
+
+
+    &lt;script>
+       
+            var form = $("form");
+
+            form.submit(function (e) {
+                // Hindre skjemaet i å sendes inn på vanlig måte
+                e.preventDefault();
+
+                // Samle input-dataen i en string
+                var input = form.serialize();
+
+                // Hent url fra action-attributten til skjemaet
+                var url = form.attr('action');
+
+                // Post skjemaet med ajax
+                $.post(url, input, function (data) {
+                    // Sett inn resultatet i div'en med id 'person-info'
+                    $('#person-info').html(data);
+                });
+
+            });
+        
+    &lt;/script>
+</code></pre>	
+	</p>
+	
+	<h3>Endre index</h3>
+	<p>Vi bruker Html.Action og Html.Partial til å teste ut bruk av <i>Child Action</i> og Partial<br>
+	<code>Index.cshtml</code>:
+	<pre><code class="html">@using MVCintro.Models
+@model MVCintro.Models.PersonModel
+
+@{
+    ViewBag.Title = "Index";
+}
+&lt;h2>Index&lt;/h2>
+@Html.ActionLink("Link 1", "Show", new { @id = 13 }, new { @class = "pull-right", id = "iden-til-linken" })
+
+&lt;a href="@Url.Action("Show", new {@id = 13})">Link 2&lt;/a>
+
+&lt;hr/>
+&lt;h3>Person1 1:&lt;/h3>
+@Html.Partial("_Show", new PersonModel(1337, "Frank", "Hansen", "13371337"))
+
+&lt;hr />
+&lt;h3>Person 2:&lt;/h3>
+@Html.Action("Show")
+
+&lt;hr/>
+
+&lt;div id="person-info">
+    @Html.Partial("_PersonForm", Model)
+&lt;/div>
+</code></pre>	
+	</p>
+	
+		<h3>Tilpasse Controlleren</h3>
+	<p>I tillegg til å sjekke om det er et ajax-kall må vi nå sjekke om det er en <i>Child Action</i> ofr å ta hensyn til <code>Html.Action</code>.<br>
+	Vi gjør også noen forenklinger og lager en hjelpemetode for å gjøre koden vår penere.
+	<code>PersonController</code>:
+	<pre><code class="cs">public class PersonController : Controller
+{
+	// GET: Person
+	public ActionResult Index()
+	{
+		return View();
+	}
+
+	public ActionResult Show(int id = 1)
+	{
+		var model = new PersonModel(id, "Nils", "Jensen", "9161166")
+		{
+			DateOfBirth = new DateTime(1987,06,06),
+			IdentityNumber = "12345678910"
+		};
+
+		if (RequestIsAjaxOrChild())
+			return PartialView(model);
+
+		return View(model);
+	}
+
+
+	[HttpPost]
+	public ActionResult Create(PersonModel model)
+	{
+
+		if (RequestIsAjaxOrChild())
+			return ModelState.IsValid ? PartialView("Show", model) : PartialView("Index", model);
+		
+		return ModelState.IsValid ? View("Show", model) : View("Index", model);
+
+	}
+
+	private bool RequestIsAjaxOrChild()
+	{
+		return Request.IsAjaxRequest() || ControllerContext.IsChildAction;
+	}
+}</code></pre>	
+	</p>
+	<br>
+
+ <a href="oppgave5.html#5c"><= Tilbake</a>
+
+    </section>  
+  </body>
+  
+  <script src="lib/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</html>
+
